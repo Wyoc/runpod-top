@@ -72,10 +72,11 @@ func (d DetailModel) renderSinglePod(pod api.Pod, width int) string {
 	header := titleStyle.Render(pod.Name) + "  " + StatusBadge(pod.DesiredStatus)
 	sections = append(sections, header)
 
-	info := fmt.Sprintf("  %s  %s  %s",
+	info := fmt.Sprintf("  %s  %s  %s  %s",
 		labelStyle.Render("GPU:")+valueStyle.Render(" "+pod.Machine.GpuDisplayName),
 		labelStyle.Render("Loc:")+valueStyle.Render(" "+pod.Machine.Location),
 		labelStyle.Render("vCPU:")+valueStyle.Render(fmt.Sprintf(" %d", pod.VcpuCount)),
+		labelStyle.Render("RAM:")+valueStyle.Render(fmt.Sprintf(" %.0f GB", pod.MemoryInGb)),
 	)
 	sections = append(sections, info)
 
