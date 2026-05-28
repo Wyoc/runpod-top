@@ -1,0 +1,80 @@
+version: 2
+
+project_name: runpod-top
+
+before:
+  hooks:
+    - go mod tidy
+
+builds:
+  - id: runpod-top
+    main: .
+    binary: runpod-top
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    ignore:
+      - goos: windows
+        goarch: arm64
+    ldflags:
+      - -s -w
+      - -X runpod-top/internal/version.Version={{.Version}}
+      - -X runpod-top/internal/version.Commit={{.ShortCommit}}
+      - -X runpod-top/internal/version.Date={{.CommitDate}}
+
+archives:
+  - id: default
+    name_template: >-
+      {{ .ProjectName }}_{{ .Version }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else }}{{ .Arch }}{{ end }}
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files:
+      - README.md
+      - CHANGELOG.md
+      - LICENSE*
+
+checksum:
+  name_template: "checksums.txt"
+
+snapshot:
+  version_template: "{{ incpatch .Version }}-next"
+
+changelog:
+  use: github
+  sort: asc
+  groups:
+    - title: Features
+      regexp: "^.*feat[(\\w)]*:+.*$"
+      order: 0
+    - title: Bug fixes
+      regexp: "^.*fix[(\\w)]*:+.*$"
+      order: 1
+    - title: Others
+      order: 999
+  filters:
+    exclude:
+      - "^docs:"
+      - "^test:"
+      - "^chore:"
+      - "merge conflict"
+      - Merge pull request
+      - Merge remote-tracking branch
+      - Merge branch
+
+release:
+  draft: false
+  prerelease: auto
+  header: |
+    ## runpod-top {{ .Tag }}
+
+    See [CHANGELOG.md](https://github.com/Wyoc/runpod-top/blob/main/CHANGELOG.md) for the full changelog.

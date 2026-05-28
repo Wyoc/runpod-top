@@ -19,10 +19,10 @@ type Machine struct {
 }
 
 type Runtime struct {
-	UptimeInSeconds int        `json:"uptimeInSeconds"`
-	Gpus            []GPU      `json:"gpus"`
-	Container       Container  `json:"container"`
-	Ports           []Port     `json:"ports"`
+	UptimeInSeconds int       `json:"uptimeInSeconds"`
+	Gpus            []GPU     `json:"gpus"`
+	Container       Container `json:"container"`
+	Ports           []Port    `json:"ports"`
 }
 
 type GPU struct {

@@ -3,6 +3,8 @@
 A terminal UI for monitoring RunPod GPU pods in real-time. Think `htop`, but for your RunPod instances.
 
 ![Go](https://img.shields.io/badge/Go-1.21+-00ADD8?logo=go&logoColor=white)
+[![CI](https://github.com/Wyoc/runpod-top/actions/workflows/ci.yml/badge.svg)](https://github.com/Wyoc/runpod-top/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/Wyoc/runpod-top?sort=semver)](https://github.com/Wyoc/runpod-top/releases)
 
 ## Features
 
@@ -14,16 +16,18 @@ A terminal UI for monitoring RunPod GPU pods in real-time. Think `htop`, but for
 
 ## Install
 
-```bash
-go install runpod-top@latest
-```
-
-Or build from source:
+Grab a prebuilt binary for your OS/arch from the [releases page](https://github.com/Wyoc/runpod-top/releases), or build from source:
 
 ```bash
-git clone https://github.com/jdupuy/runpod-top.git
+git clone https://github.com/Wyoc/runpod-top.git
 cd runpod-top
 go build -o runpod-top .
+```
+
+Check the installed version:
+
+```bash
+runpod-top -version
 ```
 
 ## Usage
@@ -70,6 +74,7 @@ This creates:
 | `-config` | `~/.config/runpod-top/config.toml` | Config file path |
 | `-interval` | `3s` | Polling interval (e.g. `5s`, `10s`, `1m`) |
 | `-init-config` | | Create default config file and exit |
+| `-version` | | Print version and exit |
 
 ```bash
 ./runpod-top -interval 5s
@@ -127,6 +132,18 @@ runpod-top/
       styles.go            # Colors and layout
       widgets.go           # Progress bars, formatting
       messages.go          # Message types
+```
+
+## Releases
+
+Versioning follows [SemVer](https://semver.org/). User-visible changes are recorded in [`CHANGELOG.md`](./CHANGELOG.md).
+
+Releases are cut by pushing a `vX.Y.Z` tag — GitHub Actions runs [GoReleaser](https://goreleaser.com/) to build cross-platform binaries (linux/darwin/windows × amd64/arm64) and publish them, along with a checksums file, to the release page.
+
+```bash
+# After updating CHANGELOG.md and committing
+git tag -a v0.2.0 -m "v0.2.0"
+git push origin v0.2.0
 ```
 
 ## License

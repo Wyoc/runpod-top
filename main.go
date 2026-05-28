@@ -7,6 +7,7 @@ import (
 	"runpod-top/internal/api"
 	"runpod-top/internal/config"
 	"runpod-top/internal/tui"
+	"runpod-top/internal/version"
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
@@ -16,7 +17,13 @@ func main() {
 	configPath := flag.String("config", config.DefaultPath(), "config file path")
 	interval := flag.Duration("interval", 0, "polling interval (e.g. 3s, 5s)")
 	initConfig := flag.Bool("init-config", false, "create default config file and exit")
+	showVersion := flag.Bool("version", false, "print version and exit")
 	flag.Parse()
+
+	if *showVersion {
+		fmt.Println(version.String())
+		return
+	}
 
 	if *initConfig {
 		path := *configPath
